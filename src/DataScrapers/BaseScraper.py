@@ -5,12 +5,6 @@ import logging
 class BaseScraper:
     """Base Data Scraping class that is inherited by all scrappers"""
     def __init__(self, output_path: str):
-        """
-        Initializes the BaseScraper class
-
-        Args:
-            output_path (str): represents the path where the data will be stored.
-        """
         self.output_path = output_path
         self.logger = logging.getLogger(self.__class__.__name__)
 

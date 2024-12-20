@@ -1,35 +1,36 @@
 import tweepy
 import pandas as pd
+from typing import Any
 from .BaseScraper import BaseScraper
 
 class TwitterScraper(BaseScraper):
     """Twitter scraping class which inherits the base scraper class"""
 
     def __init__(self, bearer_token: str, output_path: str):
-        """
-        Initializes the TwitterScraper class
-        
-        Args:
-            bearer_token (str): authentication token
-            output_path (str): represents the path where the data will be stored.
-        """
         super().__init__(output_path)
         self.client = tweepy.Client(bearer_token=bearer_token, wait_on_rate_limit=True)
 
-    def scrape_recent_tweets(self, query):
+    # TODO:
+    # Add a method that scrapes all tweets not just recent ones
+
+    def scrape_recent_tweets(self, query: str, count: int):
         """
         Method that scrapes and ingests recent tweets
 
         Args:
             query (str): Represents the query which will be used to query the data
-            ### TODO add count (int): ###
+            count (int): Represents the number of tweets we want to pull.
         """
+        # TODO
+        # Check whether the csv file is open and cancel the run 
+
         response = self.client.search_recent_tweets(
                 query=query,
                 tweet_fields=["author_id", "geo", "possibly_sensitive", "created_at", "public_metrics", "text", "source"],
                 user_fields=["username", "location"],
-                expansions="author_id"
-            ) # add count
+                expansions="author_id", 
+                max_results=count
+            ) 
         
         if response.data:
             attributes_cont = self.map_data(response)
@@ -44,12 +45,12 @@ class TwitterScraper(BaseScraper):
             self.logger.info("No tweets found for this query!!!")
         
 
-    def map_data(self, response) -> list:
+    def map_data(self, response: Any) -> list:
         """
         Maps the data accordingly
 
         Args:
-            response (): Represents the response w the scraped data
+            response (Any): Represents the response w the scraped data
 
         Returns:
             list: contains the necessary mappings
@@ -70,6 +71,13 @@ class TwitterScraper(BaseScraper):
     def build_df(self, columns: list, attributes: list) -> pd.DataFrame:
         """
         Builds a dataframe w the provided columns and attributes
+
+        Args:
+            columns (list): list of columns needed to create the DataFrame
+            attributes (list): data rows needed to create the DataFrame
+
+        Returns:
+            pd.DataFrame: the final DataFrame
         """
         return pd.DataFrame(attributes, columns=columns)
 
