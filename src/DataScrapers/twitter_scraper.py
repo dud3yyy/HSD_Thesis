@@ -1,7 +1,7 @@
 import tweepy
 import pandas as pd
-from typing import Any
-from .BaseScraper import BaseScraper
+from typing import Any, Optional
+from .base_scraper import BaseScraper
 
 class TwitterScraper(BaseScraper):
     """Twitter scraping class which inherits the base scraper class"""
@@ -78,18 +78,18 @@ class TwitterScraper(BaseScraper):
         ]
          
     
-    def build_df(self, columns: list, attributes: list) -> pd.DataFrame:
+    def build_df(self, columns: Optional[list[str]], data: list) -> pd.DataFrame:
         """
         Builds a dataframe w the provided columns and attributes
 
         Args:
             columns (list): list of columns needed to create the DataFrame
-            attributes (list): data rows needed to create the DataFrame
+            data (list): data rows needed to create the DataFrame
 
         Returns:
             pd.DataFrame: the final DataFrame
         """
-        return pd.DataFrame(attributes, columns=columns)
+        return pd.DataFrame(data, columns=columns)
 
 
 
