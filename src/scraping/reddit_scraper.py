@@ -30,8 +30,8 @@ class RedditScraper(BaseScraper):
                         'created_utc': self.convert_to_iso_format(post.created_utc),
                         'subreddit': subreddit}
                         )
-        
-        reddit_df = TwitterScraper.build_df(data)
+        red_cols = data[0].keys()
+        reddit_df = BaseScraper.build_df(data=data, columns=red_cols)
         self.write_output(reddit_df)
         
     def convert_to_iso_format(self, created_utc):

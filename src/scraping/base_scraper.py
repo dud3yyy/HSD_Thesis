@@ -1,6 +1,8 @@
 import pandas as pd
 import os
 import logging
+from typing import Optional
+
 
 class BaseScraper:
     """Base Data Scraping class that is inherited by all scrappers"""
@@ -21,4 +23,18 @@ class BaseScraper:
         else:
             df.to_csv(self.output_path, mode='a', header=False, index=False)
             self.logger.info(f"Data appended to {self.output_path}")
+
+    @staticmethod
+    def build_df(columns: Optional[list[str]], data: list) -> pd.DataFrame:
+        """
+        Builds a dataframe w the provided columns and attributes
+
+        Args:
+            columns (Optional[list[str]]): list of columns needed to create the DataFrame
+            data (list): data rows needed to create the DataFrame
+
+        Returns:
+            pd.DataFrame: the final DataFrame
+        """
+        return pd.DataFrame(data=data, columns=columns)
 

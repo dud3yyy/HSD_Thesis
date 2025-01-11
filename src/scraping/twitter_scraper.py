@@ -1,6 +1,6 @@
 import tweepy
 import pandas as pd
-from typing import Any, Optional
+from typing import Any
 from .base_scraper import BaseScraper
 
 class TwitterScraper(BaseScraper):
@@ -27,7 +27,7 @@ class TwitterScraper(BaseScraper):
 
             columns = ["Username", "Country_Code", "Possibly_Sensitive", "Date_Created", "No_of_Likes","Source", "Full_Text"]
 
-            x_df = pd.DataFrame(attributes_cont, columns=columns)
+            x_df = BaseScraper.build_df(attributes_cont, columns=columns)
 
             self.write_output(x_df)
             self.logger.info(f"Successfully saved {len(x_df)} tweets to {self.output_path}")
@@ -78,18 +78,7 @@ class TwitterScraper(BaseScraper):
         ]
          
     
-    def build_df(self, columns: Optional[list[str]], data: list) -> pd.DataFrame:
-        """
-        Builds a dataframe w the provided columns and attributes
 
-        Args:
-            columns (list): list of columns needed to create the DataFrame
-            data (list): data rows needed to create the DataFrame
-
-        Returns:
-            pd.DataFrame: the final DataFrame
-        """
-        return pd.DataFrame(data, columns=columns)
 
 
 
