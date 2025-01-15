@@ -27,7 +27,7 @@ class TwitterScraper(BaseScraper):
 
             columns = ["Username", "Country_Code", "Possibly_Sensitive", "Date_Created", "No_of_Likes","Source", "Full_Text"]
 
-            x_df = BaseScraper.build_df(attributes_cont, columns=columns)
+            x_df = BaseScraper.build_df(columns=columns, data=attributes_cont)
 
             self.write_output(x_df)
             self.logger.info(f"Successfully saved {len(x_df)} tweets to {self.output_path}")
