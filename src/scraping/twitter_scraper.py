@@ -1,7 +1,10 @@
-import tweepy
-import pandas as pd
 from typing import Any
+
+import pandas as pd
+import tweepy
+
 from .base_scraper import BaseScraper
+
 
 class TwitterScraper(BaseScraper):
     """Twitter scraping class which inherits the base scraper class"""
@@ -25,15 +28,24 @@ class TwitterScraper(BaseScraper):
         if response.data:
             attributes_cont = self.map_data(response)
 
-            columns = ["Username", "Country_Code", "Possibly_Sensitive", "Date_Created", "No_of_Likes","Source", "Full_Text"]
+            columns = [
+                "Username",
+                "Country_Code",
+                "Possibly_Sensitive",
+                "Date_Created",
+                "No_of_Likes",
+                "Source",
+                "Full_Text",
+            ]
 
             x_df = BaseScraper.build_df(columns=columns, data=attributes_cont)
 
             self.write_output(x_df)
-            self.logger.info(f"Successfully saved {len(x_df)} tweets to {self.output_path}")
+            self.logger.info(
+                f"Successfully saved {len(x_df)} tweets to {self.output_path}"
+            )
         else:
             self.logger.info("No tweets found for this query!!!")
-
 
     def get_recent_tweets(self, query: str, count: int) -> tweepy.Response:
         """
@@ -47,13 +59,20 @@ class TwitterScraper(BaseScraper):
             tweepy.Response: A response object that contains the tweets.
         """
         return self.client.search_recent_tweets(
-                    query=query,
-                    tweet_fields=["author_id", "geo", "possibly_sensitive", "created_at", "public_metrics", "text", "source"],
-                    user_fields=["username", "location"],
-                    expansions="author_id", 
-                    max_results=count
-                )
-
+            query=query,
+            tweet_fields=[
+                "author_id",
+                "geo",
+                "possibly_sensitive",
+                "created_at",
+                "public_metrics",
+                "text",
+                "source",
+            ],
+            user_fields=["username", "location"],
+            expansions="author_id",
+            max_results=count,
+        )
 
     def map_data(self, response: Any) -> list:
         """
@@ -67,19 +86,18 @@ class TwitterScraper(BaseScraper):
         """
         users = {user["id"]: user for user in response.includes["users"]}
         return [
-            [users[tweet.author_id]["username"] if tweet.author_id in users else None,
-            tweet.geo["place_id"] if tweet.geo else None,
-            tweet.possibly_sensitive,
-            tweet.created_at,
-            tweet.public_metrics['like_count'],
-            tweet.source if tweet.source else 'X',
-            tweet.text]
+            [
+                (
+                    users[tweet.author_id]["username"]
+                    if tweet.author_id in users
+                    else None
+                ),
+                tweet.geo["place_id"] if tweet.geo else None,
+                tweet.possibly_sensitive,
+                tweet.created_at,
+                tweet.public_metrics["like_count"],
+                tweet.source if tweet.source else "X",
+                tweet.text,
+            ]
             for tweet in response.data
         ]
-         
-    
-
-
-
-
-
