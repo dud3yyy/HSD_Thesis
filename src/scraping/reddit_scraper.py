@@ -41,9 +41,9 @@ class RedditScraper(BaseScraper):
                         }
                     )
 
-        red_cols = data[0].keys()
+        reddit_columns = data[0].keys()
 
-        reddit_df = self.build_df(data=data, columns=red_cols)
+        reddit_df = self.build_df(data=data, columns=reddit_columns)
 
         self.write_output(reddit_df)
 

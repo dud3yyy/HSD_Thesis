@@ -38,7 +38,7 @@ class TwitterScraper(BaseScraper):
                 "Full_Text",
             ]
 
-            x_df = BaseScraper.build_df(columns=columns, data=attributes_cont)
+            x_df = self.build_df(columns=columns, data=attributes_cont)
 
             self.write_output(x_df)
             self.logger.info(
