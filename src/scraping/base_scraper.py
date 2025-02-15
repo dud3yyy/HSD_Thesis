@@ -1,16 +1,22 @@
 import logging
 import os
 from typing import Optional
+from abc import ABC, abstractmethod
 
 import pandas as pd
 
 
-class BaseScraper:
+class BaseScraper(ABC):
     """Base Data Scraping class that is inherited by all scrappers"""
 
     def __init__(self, output_path: str):
         self.output_path = output_path
         self.logger = logging.getLogger(self.__class__.__name__)
+
+    @abstractmethod
+    def scrape_data(self):
+        """Abstract method to scrape data"""
+        pass
 
     def write_output(self, df: pd.DataFrame) -> None:
         """

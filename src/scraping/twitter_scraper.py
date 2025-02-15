@@ -13,7 +13,7 @@ class TwitterScraper(BaseScraper):
         super().__init__(output_path)
         self.client = tweepy.Client(bearer_token=bearer_token, wait_on_rate_limit=True)
 
-    def scrape_tweets(self, query: str, count: int):
+    def scrape_data(self, query: str, count: int):
         """
         Method that scrapes and ingests recent tweets
 

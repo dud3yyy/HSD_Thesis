@@ -16,7 +16,7 @@ class RedditScraper(BaseScraper):
             client_id=client_id, client_secret=client_secret, user_agent=user_agent
         )
 
-    def scrape_posts(self, subreddits: list[str], query: str, limit: int):
+    def scrape_data(self, subreddits: list[str], query: str, limit: int):
         """Scrapes posts"""
         data = []
 
