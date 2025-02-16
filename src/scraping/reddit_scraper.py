@@ -17,7 +17,7 @@ class RedditScraper(BaseScraper):
         )
 
     def scrape_data(self, subreddits: list[str], query: str, limit: int):
-        """Scrapes posts"""
+        """Scrapes reddit posts"""
         data = []
 
         for subreddit in subreddits:

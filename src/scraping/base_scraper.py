@@ -11,7 +11,8 @@ class BaseScraper(ABC):
 
     def __init__(self, output_path: str):
         self.output_path = output_path
-        self.logger = logging.getLogger(self.__class__.__name__)
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        self.logger = logging.getLogger()
 
     @abstractmethod
     def scrape_data(self):
@@ -43,4 +44,5 @@ class BaseScraper(ABC):
         Returns:
             pd.DataFrame: the final DataFrame
         """
+        self.logger.info("Building dataframe...")
         return pd.DataFrame(data=data, columns=columns)
