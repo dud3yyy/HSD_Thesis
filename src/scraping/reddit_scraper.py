@@ -44,7 +44,7 @@ class RedditScraper(BaseScraper):
         reddit_columns = data[0].keys()
 
         reddit_df = self.build_df(data=data, columns=reddit_columns)
-
+        
         self.write_output(reddit_df)
 
     def convert_to_iso_format(self, created_utc):

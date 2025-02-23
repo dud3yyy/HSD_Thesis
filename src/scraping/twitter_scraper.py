@@ -13,7 +13,7 @@ class TwitterScraper(BaseScraper):
         super().__init__(output_path)
         self.client = tweepy.Client(bearer_token=bearer_token, wait_on_rate_limit=True)
 
-    def scrape_data(self, query: str, count: int):
+    def scrape_data(self, query: str, count: int) -> None:
         """
         Method that scrapes and ingests recent tweets
 
@@ -58,6 +58,7 @@ class TwitterScraper(BaseScraper):
         Returns:
             tweepy.Response: A response object that contains the tweets.
         """
+        self.logger.info(f"Scraping recent tweets based on this query: {query}")
         return self.client.search_recent_tweets(
             query=query,
             tweet_fields=[
@@ -85,6 +86,7 @@ class TwitterScraper(BaseScraper):
             list: contains the necessary mappings
         """
         users = {user["id"]: user for user in response.includes["users"]}
+        self.logger.info("Mapping the data...")
         return [
             [
                 (
